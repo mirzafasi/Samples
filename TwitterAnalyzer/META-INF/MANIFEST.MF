@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Main-Class: sample.main.Main
+Class-Path: resources/ libs/commons-beanutils-1.8.3.jar libs/commons-collections-3.2.jar
+ libs/commons-lang-2.6.jar libs/commons-logging-1.1.3.jar libs/ezmorph-1.0.6.jar
+ libs/json-lib-2.4-jdk15.jar libs/mongo-java-driver-2.11.2.jar libs/opencsv-2.3.jar
+ libs/twitter4j-core-3.0.3.jar libs/twitter4j-stream-3.0.3.jar
+
