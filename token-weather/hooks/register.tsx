@@ -84,7 +84,9 @@ export const register: Register = on => {
       const f = await read($, forecast)
       if (f !== null) {
         const surfaces = (await $.session.surfaces()).join(', ') || 'none'
-        await $.fs.write(SNAPSHOT, `${describe(f)}\nsurfaces: ${surfaces}\n`).catch(() => {})
+        await $.fs.write(SNAPSHOT, `${describe(f)}\nsurfaces: ${surfaces}\n`).catch((err: unknown) => {
+          $.ui.toast(`token-weather: could not write ${SNAPSHOT}: ${String(err)}`)
+        })
       }
     }
     return result

@@ -74,4 +74,23 @@ describe('token-weather', () => {
     expect(await ui.find({ type: 'Text', text: 'engine band' })).toBeDefined()
     await ui.unmount()
   })
+
+  test('keeps the last 12 turns and skips subagent turns', async ($, on) => {
+    let used = 0
+    on('turn.complete', () => ({ text: '' }))
+    on('session.surfaces', () => ({ value: [] }))
+    on('fs.write', () => ({ value: undefined }))
+    on('session.usage', () => ({ value: usage(used) }))
+    on('command.run', () => ({ text: '' }))
+
+    for (let i = 1; i <= 14; i++) {
+      used = i * 10_000
+      await $.turn.complete(turn(`t${i}`))
+    }
+    used = 190_000
+    await $.turn.complete({ ...turn('sub'), agentId: 'a1' })
+
+    const text = (await $.command.run({ command: 'weather', args: '' } as never)).text
+    expect(text).toBe('☂ Showers 70% · 140k / 200k ▂▂▃▃▃▄▄▅▅▅▆▆ ▲ +10k last turn')
+  })
 })
